@@ -50,7 +50,7 @@ class TwilioWhatsapp:
             self._option = user_entry[:1]
         if len(user_entry) > 3 and user_entry != DEFAULT_WELCOME_OPTION:
             self._option = 'C.1'
-        elif user_entry.startswith("C-"):
+        if user_entry.startswith("C-"):
             self._option = 'A.1'
         if self.menu_options.get(self._option):
             if len(user_entry) < 3 and user_entry in list(self.menu_options[self._option]):
@@ -68,10 +68,25 @@ class TwilioWhatsapp:
                 MSG_RETURN
             )
         elif self._option == 'A.1':
-            with engine.connect() as connection:
-                t = text("")
-                result = connection.execute(t)
-            return None
+            try:
+                _param = self.user_message.split("C-")[1]
+                with engine.connect() as connection:
+                    t = text("SELECT p.codigo, c.nombre, c.apellidos, l.nombre, l.direccion, l.telefono, s.nombre FROM pedidos p inner join clientes c on p.cliente_id = c.cliente_id inner join locales l on p.local_id = l.local_id inner join servicios s on p.servicio_id = s.servicio_id WHERE p.codigo ='%s'" % _param)
+                    response = connection.execute(t)
+                    if response:
+                        values = "\n".join(['```Nombre:{}\nApellidos:{}\nLugar Entrega:{}\n{}\nServicio:{}\nTelefono Contacto:{}\n```'.format(r[1], r[2], r[3], r[4], r[6], r[5])
+                                            for r in response])
+                        if values:
+                            _msg = "Detalle de tu pedido:\n\n{}".format(values)
+                        else:
+                            _msg = "No se encuentra resultados"
+                    else:
+                        _msg = "No se encuentra resultados"
+            except Exception as e:
+                _msg = "No se encuentra resultados"
+
+            return "{}\n\n{}".format(_msg, MSG_RETURN)
+
         elif self._option == 'B':
             return '{}\n{}\n\n{}'.format(
                 "*B1)* Ingresa código de proveedor",
@@ -85,7 +100,9 @@ class TwilioWhatsapp:
                 values = "\n".join(['```Nombre:{}\nCategoría:{}\n```'.format(r['title'], r['category'])
                                     for r in response])
                 _msg = "Proveedores registrados:\n\n{}".format(values)
-                return "{}\n\n{}".format(_msg, MSG_RETURN)
+            else:
+                _msg = "No se encuentra lista de proveedores"
+            return "{}\n\n{}".format(_msg, MSG_RETURN)
         elif self._option == 'C':
             return '{}\n\n{}'.format(
                 "Escribe tu mensaje:",

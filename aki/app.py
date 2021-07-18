@@ -12,7 +12,7 @@ from aki.utils.twilio import TwilioWhatsapp
 app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['ACCOUNT_SID'] = 'ACc59a40f67abcb7799b31203adf7266a6'
-app.config['AUTH_TOKEN'] = '62c672c95576b6a5c76277b91e0ed76f'
+app.config['AUTH_TOKEN'] = 'd2bbbdad06560da2280cfe9ce2e606d8'
 app.config['FROM_WHATSAPP_NUMBER'] = 'whatsapp:+14155238886'
 
 logging.basicConfig(format='%(asctime)s %(process)d,%(threadName)s %(filename)s:%(lineno)d [%(levelname)s] %(message)s',

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://localhost:8080/provider-ws" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://localhost:8080/provider-ws" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://localhost:8080/provider-ws">
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="http://localhost:8080/provider-ws" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+         <xs:element name="getProviderByIdRequest">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="providerId" type="xs:long"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getProviderByIdResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="providerInfo" type="tns:providerInfo"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:complexType name="providerInfo">
+            <xs:sequence>
+               <xs:element name="providerId" type="xs:long"/>
+               <xs:element name="title" type="xs:string"/>
+               <xs:element name="category" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getAllProvidersRequest">
+            <xs:complexType/>
+         </xs:element>
+         <xs:element name="getAllProvidersResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element maxOccurs="unbounded" name="providerInfo" type="tns:providerInfo"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:complexType name="serviceStatus">
+            <xs:sequence>
+               <xs:element name="statusCode" type="xs:string"/>
+               <xs:element name="message" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="addProviderRequest">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="title" type="xs:string"/>
+                  <xs:element name="category" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="addProviderResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="serviceStatus" type="tns:serviceStatus"/>
+                  <xs:element name="providerInfo" type="tns:providerInfo"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="updateProviderRequest">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="providerInfo" type="tns:providerInfo"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="updateProviderResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="serviceStatus" type="tns:serviceStatus"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="deleteProviderRequest">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="providerId" type="xs:long"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="deleteProviderResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="serviceStatus" type="tns:serviceStatus"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="addProviderRequest">
+      <wsdl:part element="tns:addProviderRequest" name="addProviderRequest"/>
+   </wsdl:message>
+   <wsdl:message name="addProviderResponse">
+      <wsdl:part element="tns:addProviderResponse" name="addProviderResponse"/>
+   </wsdl:message>
+   <wsdl:message name="updateProviderRequest">
+      <wsdl:part element="tns:updateProviderRequest" name="updateProviderRequest"/>
+   </wsdl:message>
+   <wsdl:message name="getProviderByIdRequest">
+      <wsdl:part element="tns:getProviderByIdRequest" name="getProviderByIdRequest"/>
+   </wsdl:message>
+   <wsdl:message name="getProviderByIdResponse">
+      <wsdl:part element="tns:getProviderByIdResponse" name="getProviderByIdResponse"/>
+   </wsdl:message>
+   <wsdl:message name="deleteProviderResponse">
+      <wsdl:part element="tns:deleteProviderResponse" name="deleteProviderResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getAllProvidersResponse">
+      <wsdl:part element="tns:getAllProvidersResponse" name="getAllProvidersResponse"/>
+   </wsdl:message>
+   <wsdl:message name="updateProviderResponse">
+      <wsdl:part element="tns:updateProviderResponse" name="updateProviderResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getAllProvidersRequest">
+      <wsdl:part element="tns:getAllProvidersRequest" name="getAllProvidersRequest"/>
+   </wsdl:message>
+   <wsdl:message name="deleteProviderRequest">
+      <wsdl:part element="tns:deleteProviderRequest" name="deleteProviderRequest"/>
+   </wsdl:message>
+   <wsdl:portType name="ProvidersPort">
+      <wsdl:operation name="addProvider">
+         <wsdl:input message="tns:addProviderRequest" name="addProviderRequest"/>
+         <wsdl:output message="tns:addProviderResponse" name="addProviderResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="updateProvider">
+         <wsdl:input message="tns:updateProviderRequest" name="updateProviderRequest"/>
+         <wsdl:output message="tns:updateProviderResponse" name="updateProviderResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getProviderById">
+         <wsdl:input message="tns:getProviderByIdRequest" name="getProviderByIdRequest"/>
+         <wsdl:output message="tns:getProviderByIdResponse" name="getProviderByIdResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="deleteProvider">
+         <wsdl:input message="tns:deleteProviderRequest" name="deleteProviderRequest"/>
+         <wsdl:output message="tns:deleteProviderResponse" name="deleteProviderResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getAllProviders">
+         <wsdl:input message="tns:getAllProvidersRequest" name="getAllProvidersRequest"/>
+         <wsdl:output message="tns:getAllProvidersResponse" name="getAllProvidersResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="ProvidersPortSoap11" type="tns:ProvidersPort">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="addProvider">
+         <soap:operation soapAction=""/>
+         <wsdl:input name="addProviderRequest">
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="addProviderResponse">
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="updateProvider">
+         <soap:operation soapAction=""/>
+         <wsdl:input name="updateProviderRequest">
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="updateProviderResponse">
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getProviderById">
+         <soap:operation soapAction=""/>
+         <wsdl:input name="getProviderByIdRequest">
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getProviderByIdResponse">
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="deleteProvider">
+         <soap:operation soapAction=""/>
+         <wsdl:input name="deleteProviderRequest">
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="deleteProviderResponse">
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getAllProviders">
+         <soap:operation soapAction=""/>
+         <wsdl:input name="getAllProvidersRequest">
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getAllProvidersResponse">
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="ProvidersPortService">
+      <wsdl:port binding="tns:ProvidersPortSoap11" name="ProvidersPortSoap11">
+         <soap:address location="http://localhost:8080/soapws"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>
